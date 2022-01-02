@@ -19,19 +19,8 @@ import java.util.Map;
 @Table
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class Board extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String title;
-
-    @Column(columnDefinition = "MEDIUMTEXT")
-    private String contents;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Member writer;
+@DiscriminatorValue("Board")
+public class Board extends BaseBoardEntity {
 
     @Enumerated(EnumType.STRING)
     private Category category;
