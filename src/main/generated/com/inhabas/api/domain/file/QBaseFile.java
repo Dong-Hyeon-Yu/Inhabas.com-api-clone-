@@ -24,13 +24,13 @@ public class QBaseFile extends EntityPathBase<BaseFile> {
 
     public final com.inhabas.api.domain.file.type.wrapper.QFileName filename;
 
-    public final com.inhabas.api.domain.file.type.wrapper.QFilePath filepath;
-
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final com.inhabas.api.domain.file.type.wrapper.QFilePath legacyPath;
 
     public final DateTimePath<java.time.LocalDateTime> uploaded = createDateTime("uploaded", java.time.LocalDateTime.class);
+
+    public final com.inhabas.api.domain.file.type.wrapper.QFileName uploadName;
 
     public QBaseFile(String variable) {
         this(BaseFile.class, forVariable(variable), INITS);
@@ -51,8 +51,8 @@ public class QBaseFile extends EntityPathBase<BaseFile> {
     public QBaseFile(Class<? extends BaseFile> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.filename = inits.isInitialized("filename") ? new com.inhabas.api.domain.file.type.wrapper.QFileName(forProperty("filename")) : null;
-        this.filepath = inits.isInitialized("filepath") ? new com.inhabas.api.domain.file.type.wrapper.QFilePath(forProperty("filepath")) : null;
         this.legacyPath = inits.isInitialized("legacyPath") ? new com.inhabas.api.domain.file.type.wrapper.QFilePath(forProperty("legacyPath")) : null;
+        this.uploadName = inits.isInitialized("uploadName") ? new com.inhabas.api.domain.file.type.wrapper.QFileName(forProperty("uploadName")) : null;
     }
 
 }

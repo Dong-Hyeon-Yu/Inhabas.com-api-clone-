@@ -87,9 +87,6 @@ public abstract class BaseBoard extends BaseEntity {
         return writer;
     }
 
-    public Set<BoardFile> getFiles() {
-        return Collections.unmodifiableSet(files);
-    }
 
 }
 

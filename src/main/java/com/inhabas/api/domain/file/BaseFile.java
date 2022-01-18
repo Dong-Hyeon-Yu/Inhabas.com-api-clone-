@@ -29,10 +29,25 @@ public abstract class BaseFile {
     protected FileName filename;
 
     @Embedded
-    protected FilePath filepath;
+    @AttributeOverride(name = "value", column = @Column(name = "upload_file_name"))
+    protected FileName uploadName;
 
     @CreatedDate
     protected LocalDateTime uploaded;
+
+    public BaseFile(String uploadFileName, String saveFileName) {
+        this.filename = new FileName(saveFileName);
+        this.uploadName = new FileName(uploadFileName);
+    }
+
+    public String getFilename() {
+        return filename.getValue();
+    }
+
+    public String getUploadName() {
+        return uploadName.getValue();
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -42,12 +57,12 @@ public abstract class BaseFile {
         return getId().equals(baseFile.getId())
                 && Objects.equals(getLegacyPath(), baseFile.getLegacyPath())
                 && getFilename().equals(baseFile.getFilename())
-                && Objects.equals(getFilepath(), baseFile.getFilepath())
+                && Objects.equals(getUploadName(), baseFile.getUploadName())
                 && getUploaded().equals(baseFile.getUploaded());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLegacyPath(), getFilename(), getFilepath(), getUploaded());
+        return Objects.hash(getId(), getLegacyPath(), getFilename(), getUploadName(), getUploaded());
     }
 }

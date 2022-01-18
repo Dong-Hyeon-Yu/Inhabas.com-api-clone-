@@ -27,9 +27,6 @@ public class QBoardFile extends EntityPathBase<BoardFile> {
     // inherited
     public final com.inhabas.api.domain.file.type.wrapper.QFileName filename;
 
-    // inherited
-    public final com.inhabas.api.domain.file.type.wrapper.QFilePath filepath;
-
     //inherited
     public final NumberPath<Integer> id;
 
@@ -40,6 +37,9 @@ public class QBoardFile extends EntityPathBase<BoardFile> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> uploaded;
+
+    // inherited
+    public final com.inhabas.api.domain.file.type.wrapper.QFileName uploadName;
 
     public QBoardFile(String variable) {
         this(BoardFile.class, forVariable(variable), INITS);
@@ -61,11 +61,11 @@ public class QBoardFile extends EntityPathBase<BoardFile> {
         super(type, metadata, inits);
         this._super = new QBaseFile(type, metadata, inits);
         this.filename = _super.filename;
-        this.filepath = _super.filepath;
         this.id = _super.id;
         this.legacyPath = _super.legacyPath;
         this.parentBoard = inits.isInitialized("parentBoard") ? new com.inhabas.api.domain.board.QBaseBoard(forProperty("parentBoard"), inits.get("parentBoard")) : null;
         this.uploaded = _super.uploaded;
+        this.uploadName = _super.uploadName;
     }
 
 }
