@@ -1,11 +1,15 @@
 package com.inhabas.api.domain.board.type.wrapper;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.Objects;
 
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Title {
 
     @Column(name = "title")
@@ -13,8 +17,6 @@ public class Title {
 
     @Transient
     private final int MAX_LENGTH = 100;
-
-    public Title() {}
 
     public Title(String value) {
         if (validate(value))

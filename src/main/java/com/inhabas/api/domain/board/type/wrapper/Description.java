@@ -10,15 +10,15 @@ import java.util.Objects;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Contents {
+public class Description {
 
-    @Column(name = "contents", columnDefinition = "MEDIUMTEXT")
+    @Column(name = "description")
     private String value;
 
     @Transient
-    private final int MAX_SIZE = 2 << 24 - 1; //16MB
+    private final int MAX_LENGTH = 50;
 
-    public Contents(String value) {
+    public Description(String value) {
         if (validate(value))
             this.value = value;
         else
@@ -31,11 +31,10 @@ public class Contents {
 
         String o = (String) value;
         if (o.isBlank()) return false;
-        return o.length() < MAX_SIZE;
+        return o.length() < MAX_LENGTH;
     }
 
     public String getValue() {
         return value;
     }
-
 }
