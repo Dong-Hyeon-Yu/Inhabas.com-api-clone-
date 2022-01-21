@@ -2,6 +2,7 @@ package com.inhabas.api.domain.board;
 
 import com.inhabas.api.domain.member.QMember;
 import com.inhabas.api.dto.board.BoardDto;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -18,6 +19,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.inhabas.api.domain.board.QNormalBoard.normalBoard;
 import static com.inhabas.api.domain.member.QMember.member;
@@ -103,5 +105,7 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepository {
     public void deleteById(Integer id) {
         em.remove(em.getReference(NormalBoard.class, id));
     }
+
+
 
 }

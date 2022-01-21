@@ -1,5 +1,6 @@
 package com.inhabas.api.domain.board;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.inhabas.api.domain.board.QCategory.category;
+import static com.inhabas.api.domain.board.QNormalBoard.normalBoard;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,19 +28,29 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Category> findAll() {
-        return queryFactory
-                .selectFrom(category)
+    public List<Tuple> findAll() {
+        return queryFactory.from(category)
+                .select(category.id, category.name, category.description)
                 .fetch();
     }
 
     @Override
     public Optional<Category> findById(Integer categoryId) {
-        Category category = queryFactory.selectFrom(QCategory.category)
+        Category category = queryFactory.from(QCategory.category)
+                .select(QCategory.category)
                 .where(QCategory.category.id.eq(categoryId))
                 .fetchOne();
 
         return Optional.ofNullable(category);
+    }
+
+    @Override
+    public List<Tuple> getBoardCountGroupByCategoryId() {
+
+        return queryFactory.from(normalBoard)
+                .groupBy(normalBoard.category)
+                .select(normalBoard.category.name, normalBoard.category.description, normalBoard.category.count())
+                .fetch();
     }
 
     /**
