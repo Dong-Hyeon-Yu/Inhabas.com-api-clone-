@@ -19,6 +19,7 @@ import java.util.*;
 @EntityListeners(AuditingEntityListener.class)
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "TYPE", length = 15)
+//@NamedEntityGraph(name = "comment.findAllByParentBoardIdOrderByCreated", attributeNodes = @NamedAttributeNode("comments"))
 public abstract class BaseBoard extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;

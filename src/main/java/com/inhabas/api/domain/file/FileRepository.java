@@ -1,4 +1,7 @@
 package com.inhabas.api.domain.file;
 
-public interface FileRepository<T> extends FileDBRepository<T>, FileSystemRepository {
+import org.springframework.data.repository.NoRepositoryBean;
+
+@NoRepositoryBean
+public interface FileRepository<T> extends FileDBRepository<T> {
 }

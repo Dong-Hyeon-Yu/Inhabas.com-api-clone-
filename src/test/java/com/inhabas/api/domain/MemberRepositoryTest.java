@@ -33,7 +33,8 @@ public class MemberRepositoryTest {
     public void save() {
         //when
         Member saveMember = MemberRepository.save(MEMBER1);
-
+        System.out.println(MEMBER1);
+        System.out.println(saveMember);
         //then
         assertAll(
                 () -> assertThat(saveMember.getId()).isNotNull(),
