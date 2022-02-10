@@ -48,6 +48,9 @@ dependencies {
 
 	testImplementation(
 			'org.springframework.boot:spring-boot-starter-test',
+			'io.rest-assured:rest-assured:4.5.0',
+			'io.rest-assured:json-path:4.5.0',
+			'io.rest-assured:xml-path:4.5.0'
 	)
 
 
