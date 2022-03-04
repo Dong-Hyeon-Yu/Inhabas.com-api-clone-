@@ -1,0 +1,144 @@
+package com.inhabas.api.members;
+
+import com.inhabas.api.members.domain.entity.member.type.wrapper.IbasInformation;
+import com.inhabas.api.members.domain.entity.member.Member;
+import com.inhabas.api.members.domain.entity.member.type.wrapper.SchoolInformation;
+import com.inhabas.api.members.domain.entity.member.MemberRepository;
+import com.inhabas.api.members.domain.entity.member.type.wrapper.Phone;
+import com.inhabas.api.members.domain.entity.member.type.wrapper.Role;
+
+import com.inhabas.testConfig.DefaultDataJpaTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.inhabas.api.members.MemberTest.MEMBER1;
+import static com.inhabas.api.members.MemberTest.MEMBER2;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+@DefaultDataJpaTest
+public class MemberRepositoryTest {
+
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    TestEntityManager em;
+
+    @DisplayName("저장 후 반환 값은 처음과 같다.")
+    @Test
+    public void save() {
+        //when
+        Member saveMember = memberRepository.save(MEMBER1);
+
+        //then
+        assertThat(saveMember)
+                .usingRecursiveComparison()
+                .ignoringFields("ibasInformation.joined")
+                .isEqualTo(MEMBER1);
+    }
+
+    @DisplayName("학번으로 사용자를 찾을 수 있다.")
+    @Test
+    public void find_by_id() {
+        //given
+        Member save1 = memberRepository.save(MEMBER1);
+        Member save2 = memberRepository.save(MEMBER2);
+
+        //when
+        Optional<Member> find1 = memberRepository.findById(save1.getId());
+        Optional<Member> find2 = memberRepository.findById(save2.getId());
+
+        //then
+        assertThat(find1).hasValue(save1);
+        assertThat(find2).hasValue(save2);
+    }
+
+    @DisplayName("모든 데이터를 조회한다.")
+    @Test
+    public void findAll() {
+        //given
+        Member save1 = memberRepository.save(MEMBER1);
+        Member save2 = memberRepository.save(MEMBER2);
+
+        //when
+        List<Member> members = memberRepository.findAll();
+
+        //then
+        assertThat(members).contains(save1, save2);
+        assertThat(members.size()).isEqualTo(2);
+    }
+
+    @DisplayName("사용자의 정보를 갱신할 수 있다.")
+    @Test
+    public void update() {
+        //given
+        Member member = memberRepository.save(MEMBER1);
+
+        //when
+        Member param = new Member(MEMBER1.getId(), "유동현", "010-1111-2222", "", SchoolInformation.ofStudent("건축공학과", 2, 2), member.getIbasInformation());
+        Member updated = memberRepository.save(param);
+
+        //then
+        Member findMember = memberRepository.findById(MEMBER1.getId()).orElse(null);
+        assertThat(findMember).isEqualTo(updated);
+    }
+
+    @DisplayName("같은 전화번호 저장 시 DataIntegrityViolationException 예외")
+    @Test
+    public void 같은_전화번호_저장_예외() {
+        //given
+        memberRepository.save(MEMBER1);
+
+        //when
+        Member samePhoneMember = Member.builder()
+                .id(99999999)
+                .name("홍길동")
+                .phone(MEMBER1.getPhone()) // 같은 전화번호
+                .picture("")
+                .ibasInformation(new IbasInformation(Role.BASIC_MEMBER, "", 0))
+                .schoolInformation(SchoolInformation.ofStudent("전자공학과", 3, 1))
+                .build();
+
+        //then
+        assertThrows(DataIntegrityViolationException.class,
+                () -> memberRepository.saveAndFlush(samePhoneMember));
+    }
+
+    @DisplayName("전화번호 중복검사 시 true 를 반환")
+    @Test
+    public void 전화번호가_존재한다() {
+        //given
+        Member member = Member.builder()
+                .id(12171652)
+                .phone("010-0000-0000")
+                .name("유동현")
+                .picture("")
+                .schoolInformation(SchoolInformation.ofStudent("공간정보공학과", 1, 1))
+                .ibasInformation(new IbasInformation(Role.ANONYMOUS, "", 0))
+                .build();
+        memberRepository.save(member);
+
+        //when
+        boolean isExist = memberRepository.existsByPhone(new Phone("010-0000-0000"));
+
+        //then
+        assertTrue(isExist);
+    }
+
+    @DisplayName("전화번호 중복검사 시 false 를 반환")
+    @Test
+    public void 전화번호가_존재하지_않는다() {
+        //when
+        boolean isExist = memberRepository.existsByPhone(new Phone("010-0000-0000"));
+
+        //then
+        assertFalse(isExist);
+    }
+
+}
