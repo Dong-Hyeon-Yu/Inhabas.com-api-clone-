@@ -1,1 +1,9 @@
 rootProject.name = 'api'
+
+include 'common'
+include 'security'
+include 'boards-service'
+include 'members-service'
+include 'menu-service'
+include 'inhabas'
+
