@@ -1,6 +1,6 @@
-package com.inhabas.api.config;
+package inhabas.config;
 
-import com.inhabas.api.security.argumentResolver.AuthUserArgumentResolver;
+import security.argumentResolver.AuthUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
