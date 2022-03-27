@@ -19,10 +19,6 @@ public class AuthUserDetail {
 
     private Integer id;
 
-    private String provider;
-
-    private String email;
-
     private Integer profileId;
 
     private boolean hasJoined;
@@ -32,10 +28,8 @@ public class AuthUserDetail {
     private String profileImageUrl;
 
     @Builder
-    public AuthUserDetail(Integer id, String provider, String email, Integer profileId, boolean hasJoined, boolean isActive) {
+    public AuthUserDetail(Integer id, Integer profileId, boolean hasJoined, boolean isActive) {
         this.id = id;
-        this.provider = provider;
-        this.email = email;
         this.profileId = profileId;
         this.hasJoined = hasJoined;
         this.isActive = isActive;

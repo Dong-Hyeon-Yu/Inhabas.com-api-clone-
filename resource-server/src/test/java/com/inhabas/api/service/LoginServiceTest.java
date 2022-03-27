@@ -77,7 +77,7 @@ public class LoginServiceTest {
     public void prepareSignUpRedirectHeaderTest() throws URISyntaxException {
 
         //given
-        AuthUserDetail authUserDetail = new AuthUserDetail(2, "google", "my@gmail.com", null, false, true);
+        AuthUserDetail authUserDetail = new AuthUserDetail(2, null, false, true);
 
         HttpHeaders expectedHttpHeaders = new HttpHeaders();
         expectedHttpHeaders.setLocation(URI.create("https://inhabas.com/login/success?access_token=123.345.789&refresh_token=&profile_image_url=&expires_in=3600"));
@@ -96,7 +96,7 @@ public class LoginServiceTest {
     public void prepareLoginRedirectHeaderTest() throws URISyntaxException {
 
         //given
-        AuthUserDetail authUserDetail = new AuthUserDetail(2, "google", "my@gmail.com", 12171652, true, true);
+        AuthUserDetail authUserDetail = new AuthUserDetail(2,  12171652, true, true);
         authUserDetail.setProfileImageUrl("https://googlestatic.com/blahblah");
 
         HttpHeaders expectedHttpHeaders = new HttpHeaders();

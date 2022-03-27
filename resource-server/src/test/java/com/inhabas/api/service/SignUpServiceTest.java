@@ -79,10 +79,8 @@ public class SignUpServiceTest {
                 .build();
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(12345678)
                 .build();
         doNothing().when(memberService).save(any(Member.class));
@@ -106,17 +104,15 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(12345678)
                 .build();
         Member storedMember = Member.builder()
                 .id(12345678)
                 .name("유동현")
                 .phone("010-0000-0000")
-                .email("my@email.com")
+                .email("my@gmail.com")
                 .picture("")
                 .ibasInformation(new IbasInformation(Role.BASIC_MEMBER))
                 .schoolInformation(SchoolInformation.ofUnderGraduate("전자공학과", 1))
@@ -147,10 +143,8 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(null)
                 .build();
         given(memberService.findById(any())).willThrow(IllegalArgumentException.class);
@@ -163,7 +157,7 @@ public class SignUpServiceTest {
                 .name(null)
                 .major(null)
                 .phoneNumber(null)
-                .email("my@gmail.com")
+                .email(null)
                 .memberId(null)
                 .memberType(MemberType.UNDERGRADUATE)
                 .build();
@@ -179,10 +173,8 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(12171652)
                 .build();
         given(memberService.findById(any())).willThrow(MemberNotFoundException.class);
@@ -195,7 +187,7 @@ public class SignUpServiceTest {
                 .name(null)
                 .major(null)
                 .phoneNumber(null)
-                .email("my@gmail.com")
+                .email(null)
                 .memberId(null)
                 .memberType(MemberType.UNDERGRADUATE)
                 .build();
@@ -236,10 +228,8 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(12171652)
                 .build();
         doNothing().when(authUserService).finishSignUp(anyInt());
@@ -268,10 +258,8 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(12171652)
                 .build();
         given(memberService.findById(anyInt())).willReturn(Member.builder()
@@ -296,10 +284,8 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(null)
                 .build();
 
@@ -340,10 +326,8 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(12171652)
                 .build();
         given(answerService.getAnswers(anyInt())).willReturn(List.of());
@@ -361,10 +345,8 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .email("my@gmail.com")
                 .hasJoined(false)
                 .isActive(true)
-                .provider("google")
                 .profileId(12171652)
                 .build();
         ArrayList<AnswerDto> submittedAnswers = new ArrayList<>() {{

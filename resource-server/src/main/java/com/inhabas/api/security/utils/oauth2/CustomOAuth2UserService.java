@@ -2,7 +2,10 @@ package com.inhabas.api.security.utils.oauth2;
 
 import com.inhabas.api.security.domain.authUser.AuthUser;
 import com.inhabas.api.security.domain.authUser.AuthUserDetail;
-import com.inhabas.api.security.domain.authUser.AuthUserRepository;
+import com.inhabas.api.security.domain.socialAccount.SocialAccount;
+import com.inhabas.api.security.domain.socialAccount.SocialAccountRepository;
+import com.inhabas.api.security.domain.socialAccount.type.Provider;
+import com.inhabas.api.security.domain.socialAccount.type.UID;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +26,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final AuthUserRepository authUserRepository;
+    private final SocialAccountRepository socialAccountRepository;
 
     /**
      * OAuth2 인증 후, db에서 회원 정보를 가져옴. 없으면 db에 생성한 후 반환한다.
@@ -44,11 +47,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> memberAttribute = oAuth2Attribute.convertToMap();
         String email = (String) memberAttribute.get("email");
 
-        // 기존 회원 연결하는 로직 필요! 또는 db 옮기는 작업 필요!
-        AuthUser loginUser = authUserRepository.findByProviderAndEmail(provider, email)
-                .orElse(new AuthUser(provider, email))
+        // 임시 작업 중
+        SocialAccount socialAccount = socialAccountRepository.findWithAuthUserByUidAndProvider(new UID("1234"), new Provider("google")) // 임시
+                .orElse(new SocialAccount(userRequest))
                 .setLastLoginTime(LocalDateTime.now());
-        loginUser = authUserRepository.save(loginUser);
+        AuthUser loginUser = socialAccountRepository.save(socialAccount).getAuthUser();
 
         return new CustomOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),

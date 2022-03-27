@@ -57,13 +57,13 @@ public class ArgumentResolverTest {
         assertThat(invalidUser).isNull();
     }
 
-    @DisplayName("Jwt token 인증된 authUser 를 컨트롤러 파라미터로 주입한다.")
+    @DisplayName("Jwt token 인증 후 authUserDetail 을 컨트롤러 파라미터로 주입한다.")
     @Test
     public void successToInjectJwtTokenAuthenticatedAuthUserIntoArguments() {
         //given
         //기존 회원 정보
         Integer authUserId = 1;
-        AuthUser expectedUser = new AuthUser("google", "my@email.com");
+        AuthUser expectedUser = new AuthUser(12171652);
         ReflectionTestUtils.setField(expectedUser, "id", authUserId);
 
         // jwt 토큰 인증 결과
@@ -81,11 +81,9 @@ public class ArgumentResolverTest {
         //then
         assertThat(authenticatedUser).isNotNull();
         assertThat(authenticatedUser.getId()).isEqualTo(authUserId);
-        assertThat(authenticatedUser.getEmail()).isEqualTo("my@email.com");
-        assertThat(authenticatedUser.getProvider()).isEqualTo("google");
     }
 
-    @DisplayName("OAuth2 인증된 authUser 를 컨트롤러 파라미터로 주입한다.")
+    @DisplayName("OAuth2 인증 후 authUserDetail 를 컨트롤러 파라미터로 주입한다.")
     @Test
     public void successToInjectOAuth2AuthenticatedAuthUserIntoArguments() {
 
@@ -104,9 +102,7 @@ public class ArgumentResolverTest {
                 "email",
                 AuthUserDetail.builder()
                         .id(authUserId)
-                        .email("my@email.com")
                         .profileId(12171652)
-                        .provider("google")
                         .hasJoined(true)
                         .isActive(true)
                         .build());
@@ -126,8 +122,6 @@ public class ArgumentResolverTest {
         //then
         assertThat(authenticatedUser).isNotNull();
         assertThat(authenticatedUser.getId()).isEqualTo(authUserId);
-        assertThat(authenticatedUser.getEmail()).isEqualTo("my@email.com");
-        assertThat(authenticatedUser.getProvider()).isEqualTo("google");
     }
 
     @DisplayName("Integer Id를 받아온 경우, 인증이 이루어지지 않았으면 null을 반환한다.")
@@ -143,14 +137,13 @@ public class ArgumentResolverTest {
         assertThat(invalidUser).isNull();
     }
 
-    @DisplayName("Jwt 토큰 인증된 authUser에 대한 Id를 받아온 경우 Profile Id를 반환한다.")
+    @DisplayName("Jwt 토큰 인증 후 Profile Id를 반환한다.")
     @Test
     public void successToInjectJwtTokenIntegerIdIntoArguments() {
         //given
         //기존 회원 정보
         Integer authUserId = 1;
-        AuthUser expectedUser = new AuthUser("google", "my@email.com");
-        expectedUser.setProfileId(12201863);
+        AuthUser expectedUser = new AuthUser(12171652);
         ReflectionTestUtils.setField(expectedUser, "id", authUserId);
 
         // jwt 토큰 인증 결과
@@ -167,11 +160,11 @@ public class ArgumentResolverTest {
 
         // then
         assertThat(profileId).isNotNull();
-        assertThat(profileId).isEqualTo(expectedUser.getProfileId());
+        assertThat(profileId).isEqualTo(12171652);
         assertThat(profileId).isInstanceOf(Integer.class);
     }
 
-    @DisplayName("OAuth2 인증된 authUser에 대한 Id를 받아온 경우 Profile Id를 반환한다.")
+    @DisplayName("OAuth2 인증 후 Profile Id를 반환한다.")
     @Test
     public void successToInjectIntegerIdIntoArgumentsAndReturnProfileId() {
         //given
@@ -189,9 +182,7 @@ public class ArgumentResolverTest {
                 "email",
                 AuthUserDetail.builder()
                         .id(authUserId)
-                        .email("my@email.com")
                         .profileId(12171652)
-                        .provider("google")
                         .hasJoined(true)
                         .isActive(true)
                         .build());

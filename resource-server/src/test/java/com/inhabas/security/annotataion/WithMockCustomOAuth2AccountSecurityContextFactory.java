@@ -36,8 +36,6 @@ public class WithMockCustomOAuth2AccountSecurityContextFactory
                 "email",
                 AuthUserDetail.builder()
                         .id(customOAuth2Account.authUserId())
-                        .email(customOAuth2Account.email())
-                        .provider(customOAuth2Account.provider())
                         .profileId(customOAuth2Account.profileId())
                         .hasJoined(customOAuth2Account.alreadyJoined())
                         .isActive(customOAuth2Account.isActive())

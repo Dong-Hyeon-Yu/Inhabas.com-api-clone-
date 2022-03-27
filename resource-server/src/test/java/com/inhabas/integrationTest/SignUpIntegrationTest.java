@@ -54,7 +54,7 @@ public class SignUpIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        authUserId = authUserRepository.save(new AuthUser("google", "my@gmail.com")).getId();
+        authUserId = authUserRepository.save(new AuthUser(12171652)).getId();
     }
 
     @Test

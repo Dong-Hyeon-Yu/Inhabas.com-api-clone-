@@ -26,7 +26,7 @@ public class WithMockJwtAuthenticationTokenSecurityContextFactory
     public SecurityContext createSecurityContext(WithMockJwtAuthenticationToken principalInfo) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-        AuthUser authUser = new AuthUser(principalInfo.provider(), principalInfo.email());
+        AuthUser authUser = new AuthUser(principalInfo.memberId());
         ReflectionTestUtils.setField(authUser, "id", principalInfo.authUserId());
         ReflectionTestUtils.setField(authUser, "hasJoined", principalInfo.joined());
 
