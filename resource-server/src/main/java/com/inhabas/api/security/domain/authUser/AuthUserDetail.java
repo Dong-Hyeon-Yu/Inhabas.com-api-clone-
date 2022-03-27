@@ -44,8 +44,6 @@ public class AuthUserDetail {
     public static AuthUserDetail convert(AuthUser authUser) {
         return AuthUserDetail.builder()
                 .id(authUser.getId())
-                .email(authUser.getEmail())
-                .provider(authUser.getProvider())
                 .profileId(authUser.getProfileId())
                 .hasJoined(authUser.hasJoined())
                 .isActive(authUser.isActive())

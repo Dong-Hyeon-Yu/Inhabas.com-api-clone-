@@ -7,19 +7,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "auth_user",
-        uniqueConstraints = { @UniqueConstraint(name = "unique_provider_and_email", columnNames = { "provider", "email" })})
+@Table(name = "auth_user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthUser {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(length = 20, nullable = false)
-    private String provider;
-
-    @Column(nullable = false)
-    private String email;
 
     @Column(name = "profile_id")
     private Integer profileId;
@@ -32,30 +25,17 @@ public class AuthUser {
 
     private LocalDateTime lastLogin;
 
-    public AuthUser(String provider, String email) {
-        this.provider = provider;
-        this.email = email;
+    private LocalDateTime joinDate;
+
+    public AuthUser(Integer profileId) {
         this.hasJoined = false;
         this.isActive = true;
-        this.profileId = null;
-        lastLogin = LocalDateTime.now();
-    }
-
-    public AuthUser setLastLoginTime(LocalDateTime time) {
-        this.lastLogin = time;
-        return this;
+        this.profileId = profileId;
+        this.lastLogin = LocalDateTime.now();
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public Integer getProfileId() {
@@ -70,11 +50,11 @@ public class AuthUser {
         return this.hasJoined;
     }
 
-    public void setProfileId(Integer profileId) {
-        this.profileId = profileId;
-    }
-
     public void setJoinFlag() {
         this.hasJoined = true;
+    }
+
+    public void setProfileId(Integer profileId) {
+        this.profileId = profileId;
     }
 }
