@@ -4,7 +4,7 @@ import com.inhabas.api.domain.member.*;
 import com.inhabas.api.domain.member.type.IbasInformation;
 import com.inhabas.api.domain.member.type.MemberType;
 import com.inhabas.api.domain.member.type.SchoolInformation;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.dto.member.MajorInfoDto;
 import com.inhabas.api.dto.signUp.AnswerDto;
 import com.inhabas.api.dto.signUp.MemberDuplicationQueryCondition;
@@ -79,7 +79,7 @@ public class SignUpServiceTest {
                 .build();
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(12345678)
                 .build();
@@ -104,7 +104,7 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(12345678)
                 .build();
@@ -114,7 +114,7 @@ public class SignUpServiceTest {
                 .phone("010-0000-0000")
                 .email("my@gmail.com")
                 .picture("")
-                .ibasInformation(new IbasInformation(Role.BASIC_MEMBER))
+                .ibasInformation(new IbasInformation())
                 .schoolInformation(SchoolInformation.ofUnderGraduate("전자공학과", 1))
                 .build();
         given(memberService.findById(anyInt())).willReturn(storedMember);
@@ -143,7 +143,7 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(null)
                 .build();
@@ -173,7 +173,7 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(12171652)
                 .build();
@@ -228,19 +228,19 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(12171652)
                 .build();
         doNothing().when(authUserService).finishSignUp(anyInt());
-        doNothing().when(memberService).changeRole(anyInt(), any());
+
         given(memberService.findById(anyInt())).willReturn(Member.builder()
                 .id(12345678)
                 .name("유동현")
                 .phone("010-0000-0000")
                 .email("my@email.com")
                 .picture("")
-                .ibasInformation(new IbasInformation(Role.BASIC_MEMBER))
+                .ibasInformation(new IbasInformation())
                 .schoolInformation(SchoolInformation.ofProfessor("전자공학과", 1))
                 .build());
 
@@ -249,7 +249,6 @@ public class SignUpServiceTest {
 
         //then
         then(authUserService).should(times(1)).finishSignUp(anyInt());
-        then(memberService).should(times(1)).changeRole(anyInt(), any());
     }
 
     @DisplayName("답변을 작성하지 않아서 회원가입이 완료되지 않는다.")
@@ -258,7 +257,7 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(12171652)
                 .build();
@@ -268,7 +267,7 @@ public class SignUpServiceTest {
                 .phone("010-0000-0000")
                 .email("my@gmail.com")
                 .picture("")
-                .ibasInformation(new IbasInformation(Role.BASIC_MEMBER))
+                .ibasInformation(new IbasInformation())
                 .schoolInformation(SchoolInformation.ofUnderGraduate("전자공학과", 1))
                 .build());
         given(answerService.existAnswersWrittenBy(anyInt())).willReturn(false);
@@ -284,7 +283,7 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(null)
                 .build();
@@ -326,7 +325,7 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(12171652)
                 .build();
@@ -345,7 +344,7 @@ public class SignUpServiceTest {
         //given
         AuthUserDetail authUserDetail = AuthUserDetail.builder()
                 .id(1)
-                .hasJoined(false)
+                .role(AuthUserRole.ANONYMOUS)
                 .isActive(true)
                 .profileId(12171652)
                 .build();

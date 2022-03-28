@@ -1,10 +1,8 @@
 package com.inhabas.api.domain.member.type;
 
-import com.inhabas.api.domain.member.Member;
 import com.inhabas.api.domain.member.MemberTeam;
-import com.inhabas.api.domain.member.Team;
 import com.inhabas.api.domain.member.type.wrapper.Introduce;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,14 +13,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @Embeddable
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IbasInformation {
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
     private List<MemberTeam> teamList = new ArrayList<>();
@@ -34,10 +28,9 @@ public class IbasInformation {
     private Introduce introduce;
 
     @Column(name = "USER_APPLY_PUBLISH", nullable = false)
-    private Integer applyPublish = 0;
+    private Integer applyPublish;
 
-    public IbasInformation(Role role) {
-        this.role = role;
+    public IbasInformation() {
         this.introduce = new Introduce();
         this.applyPublish = 0;
     }
@@ -46,8 +39,8 @@ public class IbasInformation {
         return introduce.getValue();
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public List<MemberTeam> getTeamList() {
+        return Collections.unmodifiableList(teamList);
     }
 
     public void addTeam(MemberTeam team) {
@@ -57,11 +50,11 @@ public class IbasInformation {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof IbasInformation)) return false;
+        if (!(IbasInformation.class.isAssignableFrom(o.getClass()))) return false;
         IbasInformation that = (IbasInformation) o;
-        return getRole() == that.getRole()
-                && getJoined().equals(that.getJoined())
+        return getJoined().equals(that.getJoined())
                 && getIntroduce().equals(that.getIntroduce())
-                && getApplyPublish().equals(that.getApplyPublish());
+                && getApplyPublish().equals(that.getApplyPublish())
+                && getTeamList().equals(that.getTeamList());
     }
 }

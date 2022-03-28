@@ -3,7 +3,7 @@ package com.inhabas.api.service;
 import com.inhabas.api.domain.member.*;
 import com.inhabas.api.domain.member.type.IbasInformation;
 import com.inhabas.api.domain.member.type.SchoolInformation;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.service.member.MemberTeamService;
 import com.inhabas.api.service.member.MemberTeamServiceImpl;
 import com.inhabas.testConfig.DefaultDataJpaTest;
@@ -35,7 +35,7 @@ public class MemberTeamServiceTest {
         member = memberRepository.save(new Member(
                 12171234, "유동현", "010-1111-1111", "my@gmail.com", ""
                 , SchoolInformation.ofUnderGraduate("건축공학과", 3)
-                , new IbasInformation(Role.BASIC_MEMBER)));
+                , new IbasInformation()));
         team = teamRepository.save(new Team("IT 부서"));
 
         entityManager.flush();

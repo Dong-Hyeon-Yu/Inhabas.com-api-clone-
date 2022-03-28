@@ -1,6 +1,6 @@
 package com.inhabas.api.service.login;
 
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.security.domain.authUser.AuthUserDetail;
 import com.inhabas.api.security.domain.token.RefreshToken;
 import com.inhabas.api.security.service.TokenService;
@@ -36,7 +36,7 @@ public class LoginRedirectHeaderHeaderProvider implements LoginRedirectHeaderPro
     public HttpHeaders prepareSignUpRedirectHeader(HttpServletRequest request, String temporaryRedirectUri, String permanentRedirectUri, AuthUserDetail authUserDetail) throws URISyntaxException {
         /* 회원가입 필요 */
 
-        TokenDto jwtToken = tokenProvider.createJwtToken(authUserDetail.getId(), Role.ANONYMOUS.toString(), null);
+        TokenDto jwtToken = tokenProvider.createJwtToken(authUserDetail.getId(), AuthUserRole.ANONYMOUS.toString(), null);
 
         return getRedirectHttpHeaders(temporaryRedirectUri, originProvider.getOrigin(request),
                 jwtToken.getAccessToken(), "", String.valueOf(jwtToken.getExpiresIn()), "", permanentRedirectUri);

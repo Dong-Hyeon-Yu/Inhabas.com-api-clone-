@@ -28,16 +28,15 @@ public class WithMockCustomOAuth2AccountSecurityContextFactory
         attributes.put("username", customOAuth2Account.name());
         attributes.put("email", customOAuth2Account.email());
         attributes.put("picture", customOAuth2Account.picture());
-        attributes.put("role", customOAuth2Account.role());
 
         CustomOAuth2User principal = new CustomOAuth2User(
-                List.of(new SimpleGrantedAuthority(customOAuth2Account.role())),
+                List.of(new SimpleGrantedAuthority("USER")),
                 attributes,
                 "email",
                 AuthUserDetail.builder()
                         .id(customOAuth2Account.authUserId())
                         .profileId(customOAuth2Account.profileId())
-                        .hasJoined(customOAuth2Account.alreadyJoined())
+                        .role(null)
                         .isActive(customOAuth2Account.isActive())
                         .build());
 

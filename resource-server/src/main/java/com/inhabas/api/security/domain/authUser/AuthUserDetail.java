@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 /**
  * This instance includes exactly the same data of AuthUser!
  * After finishing authentication, AuthUser's data is saved as AuthUserDetail into SecurityContext.
@@ -21,35 +23,34 @@ public class AuthUserDetail {
 
     private Integer profileId;
 
-    private boolean hasJoined;
-
     private boolean isActive;
+
+    private AuthUserRole role;
 
     private String profileImageUrl;
 
     @Builder
-    public AuthUserDetail(Integer id, Integer profileId, boolean hasJoined, boolean isActive) {
+    public AuthUserDetail(Integer id, Integer profileId, boolean isActive, AuthUserRole role) {
         this.id = id;
         this.profileId = profileId;
-        this.hasJoined = hasJoined;
         this.isActive = isActive;
+        this.role = role;
     }
 
     public static AuthUserDetail convert(AuthUser authUser) {
         return AuthUserDetail.builder()
                 .id(authUser.getId())
                 .profileId(authUser.getProfileId())
-                .hasJoined(authUser.hasJoined())
                 .isActive(authUser.isActive())
+                .role(authUser.getRole())
                 .build();
-    }
-
-    public boolean hasJoined() {
-        return hasJoined;
     }
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public boolean isJoined() {
+        return this.role != AuthUserRole.ANONYMOUS && this.isActive;
+    }
 }

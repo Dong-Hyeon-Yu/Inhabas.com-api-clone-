@@ -3,7 +3,7 @@ package com.inhabas.api.service;
 import com.inhabas.api.domain.member.type.IbasInformation;
 import com.inhabas.api.domain.member.Member;
 import com.inhabas.api.domain.member.type.SchoolInformation;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.security.domain.authUser.AuthUserDetail;
 import com.inhabas.api.service.login.*;
 import com.inhabas.api.service.member.MemberService;
@@ -77,7 +77,7 @@ public class LoginServiceTest {
     public void prepareSignUpRedirectHeaderTest() throws URISyntaxException {
 
         //given
-        AuthUserDetail authUserDetail = new AuthUserDetail(2, null, false, true);
+        AuthUserDetail authUserDetail = new AuthUserDetail(2, null, false, AuthUserRole.ANONYMOUS);
 
         HttpHeaders expectedHttpHeaders = new HttpHeaders();
         expectedHttpHeaders.setLocation(URI.create("https://inhabas.com/login/success?access_token=123.345.789&refresh_token=&profile_image_url=&expires_in=3600"));
@@ -96,7 +96,7 @@ public class LoginServiceTest {
     public void prepareLoginRedirectHeaderTest() throws URISyntaxException {
 
         //given
-        AuthUserDetail authUserDetail = new AuthUserDetail(2,  12171652, true, true);
+        AuthUserDetail authUserDetail = new AuthUserDetail(2,  12171652, true, AuthUserRole.BASIC_MEMBER);
         authUserDetail.setProfileImageUrl("https://googlestatic.com/blahblah");
 
         HttpHeaders expectedHttpHeaders = new HttpHeaders();
@@ -111,7 +111,7 @@ public class LoginServiceTest {
                         .email("my@gmail.com")
                         .picture("")
                         .schoolInformation(SchoolInformation.ofUnderGraduate("컴퓨터공학과", 3))
-                        .ibasInformation(new IbasInformation(Role.BASIC_MEMBER))
+                        .ibasInformation(new IbasInformation())
                         .build()
         );
 

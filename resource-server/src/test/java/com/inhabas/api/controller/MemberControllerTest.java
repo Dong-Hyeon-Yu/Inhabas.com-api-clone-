@@ -1,6 +1,6 @@
 package com.inhabas.api.controller;
 
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.dto.member.ContactDto;
 import com.inhabas.api.service.member.MemberService;
 import com.inhabas.api.service.member.MemberTeamService;
@@ -33,7 +33,7 @@ public class MemberControllerTest {
 
     @DisplayName("회원을 한 팀에 추가시킨다.")
     @Test
-    @WithMockJwtAuthenticationToken(memberId = 12151111, memberRole = Role.EXECUTIVES)
+    @WithMockJwtAuthenticationToken(memberId = 12151111, memberRole = AuthUserRole.EXECUTIVES)
     public void addMemberToTeamTest() throws Exception {
         doNothing().when(memberTeamService).addMemberToTeam(anyInt(), anyInt());
 
@@ -45,7 +45,7 @@ public class MemberControllerTest {
 
     @DisplayName("팀에서 회원을 방출시킨다.")
     @Test
-    @WithMockJwtAuthenticationToken(memberId = 12151111, memberRole = Role.EXECUTIVES)
+    @WithMockJwtAuthenticationToken(memberId = 12151111, memberRole = AuthUserRole.EXECUTIVES)
     public void expelMemberFromTeamTest() throws Exception {
         doNothing().when(memberTeamService).deleteMemberFromTeam(anyInt(), anyInt());
 
@@ -55,14 +55,14 @@ public class MemberControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    @DisplayName("회장 연락처 정보를 불러온다")
-    @Test
-    @WithMockJwtAuthenticationToken
-    public void getChiefContactInfoTest() throws Exception {
-        given(memberService.getChiefContact())
-                .willReturn(new ContactDto("강지훈", "010-0000-0000","my@email.com"));
-
-        mvc.perform(get("/member/chief"))
-                .andExpect(status().isOk());
-    }
+//    @DisplayName("회장 연락처 정보를 불러온다")
+//    @Test
+//    @WithMockJwtAuthenticationToken
+//    public void getChiefContactInfoTest() throws Exception {
+//        given(memberService.getChiefContact())
+//                .willReturn(new ContactDto("강지훈", "010-0000-0000","my@email.com"));
+//
+//        mvc.perform(get("/member/chief"))
+//                .andExpect(status().isOk());
+//    }
 }

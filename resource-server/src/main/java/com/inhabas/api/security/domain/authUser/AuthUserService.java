@@ -31,7 +31,7 @@ public class AuthUserService {
         AuthUser authUser = authUserRepository.findById(authUserId)
                 .orElseThrow(AuthUserNotFoundException::new);
 
-        authUser.setJoinFlag();
+        authUser.completeSignUp();
         authUserRepository.save(authUser);
     }
 }

@@ -32,13 +32,13 @@ public class LoginServiceImpl implements LoginService {
 
         HttpHeaders httpHeaders;
 
-        if (authUserDetail.hasJoined()) {
+        if (authUserDetail.isJoined()) {
             /* 유저 권한 들고오기 (추후 작업이 필요함.)
             - role 은 (미승인회원, 일반회원, 교수, 회장단, 회장) 과 같이 수직구조의 권한 => 상대적으로 덜 변함. => enum 타입
             - team 은 (총무팀, 운영팀, 기획팀, IT팀, 회계) 등 과 같은 수평구조의 권한 => 시간에 따라 더 변하기 쉬움 => db 연동
             */
             Member member = memberService.findById(authUserDetail.getProfileId()); // 권한만 갖고 오도록 리팩토링 필요
-            String role = member.getIbasInformation().getRole().toString();
+            String role = authUserDetail.getRole().toString();
             // List<String> teams = member.getIbasInformation().getTeams().stream().map(t-> t.toString()).collect(Collections.toCollect);
 
             httpHeaders = redirectHeaderProvider.prepareLoginRedirectHeader(request, TEMPORARY_REDIRECT_URL, LOGIN_SUCCESS_REDIRECT_URI, authUserDetail, role);

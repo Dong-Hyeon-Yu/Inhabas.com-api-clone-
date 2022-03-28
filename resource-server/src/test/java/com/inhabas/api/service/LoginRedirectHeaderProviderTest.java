@@ -1,6 +1,6 @@
 package com.inhabas.api.service;
 
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.security.domain.authUser.AuthUserDetail;
 import com.inhabas.api.security.service.TokenService;
 import com.inhabas.api.security.utils.jwtUtils.JwtTokenProvider;
@@ -52,7 +52,7 @@ public class LoginRedirectHeaderProviderTest {
         given(httpOriginProvider.getOrigin(any(HttpServletRequest.class))).willReturn(new StringBuffer("https://www.inhabas.com"));
 
         //when
-        HttpHeaders httpHeaders = provider.prepareLoginRedirectHeader(request, TEMPORARY_REDIRECT_URL, LOGIN_SUCCESS_REDIRECT_URI, authUserDetail, Role.BASIC_MEMBER.toString());
+        HttpHeaders httpHeaders = provider.prepareLoginRedirectHeader(request, TEMPORARY_REDIRECT_URL, LOGIN_SUCCESS_REDIRECT_URI, authUserDetail, AuthUserRole.BASIC_MEMBER.toString());
 
         //then
         assertThat(httpHeaders.getLocation().getPath()).isEqualTo("/login/success");

@@ -1,11 +1,11 @@
-package com.inhabas.api.domain.member.type.wrapper;
+package com.inhabas.api.security.domain.authUser;
 
 /**
- * 모든 회원은 교수와 학생으로 나뉨. 교수와 학생 간 권한차이는 없음. <br>수직적 권한 계층은 Role 에 의해서 결정됨.
+ * 수직적 권한 계층은 Role 에 의해서 결정됨.
  */
-public enum Role {
+public enum AuthUserRole {
     ADMIN, // 사이트 관리자
-    Chief, // 회장
+    CHIEF, // 회장
     EXECUTIVES, // 회장단
     BASIC_MEMBER, // 일반회원
     DEACTIVATED_MEMBER, // 비활동회원

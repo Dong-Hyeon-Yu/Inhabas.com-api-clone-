@@ -16,8 +16,6 @@ public @interface WithMockCustomOAuth2Account {
 
     String name() default "username";
 
-    String role() default "USER";
-
     String email() default "my@default.email";
 
     String picture() default "https://get_my_picture.com";
@@ -25,8 +23,6 @@ public @interface WithMockCustomOAuth2Account {
     String provider() default "google";
 
     int authUserId() default 1;
-
-    boolean alreadyJoined() default true;
 
     boolean isActive() default true;
 

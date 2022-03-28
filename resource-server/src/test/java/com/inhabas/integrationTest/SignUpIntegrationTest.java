@@ -8,7 +8,7 @@ import com.inhabas.api.domain.member.MajorInfoRepository;
 import com.inhabas.api.domain.member.Member;
 import com.inhabas.api.domain.member.MemberRepository;
 import com.inhabas.api.domain.member.type.MemberType;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.domain.questionaire.Questionnaire;
 import com.inhabas.api.domain.questionaire.QuestionnaireRepository;
 import com.inhabas.api.domain.signup.SignUpSchedule;
@@ -32,6 +32,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,30 +61,30 @@ public class SignUpIntegrationTest {
 
     @Test
     public void 기존_일반회원_회원가입_비정상_접근() throws Exception {
-        forbiddenWhenAccessEverySignUpApi(Role.BASIC_MEMBER);
+        forbiddenWhenAccessEverySignUpApi(AuthUserRole.BASIC_MEMBER);
     }
     @Test
     public void 비활동회원_회원가입_비정상_접근() throws Exception {
-        forbiddenWhenAccessEverySignUpApi(Role.DEACTIVATED_MEMBER);
+        forbiddenWhenAccessEverySignUpApi(AuthUserRole.DEACTIVATED_MEMBER);
     }
     @Test
     public void 미승인회원_회원가입_비정상_접근() throws Exception {
-        forbiddenWhenAccessEverySignUpApi(Role.NOT_APPROVED_MEMBER);
+        forbiddenWhenAccessEverySignUpApi(AuthUserRole.NOT_APPROVED_MEMBER);
     }
     @Test
     public void 회장단_회원가입_비정상_접근() throws Exception {
-        forbiddenWhenAccessEverySignUpApi(Role.EXECUTIVES);
+        forbiddenWhenAccessEverySignUpApi(AuthUserRole.EXECUTIVES);
     }
     @Test
     public void 관리자_회원가입_비정상_접근() throws Exception {
-        forbiddenWhenAccessEverySignUpApi(Role.ADMIN);
+        forbiddenWhenAccessEverySignUpApi(AuthUserRole.ADMIN);
     }
 
     @Test
     public void 회원가입_기간이_아닙니다() throws Exception {
         /* 유동현은 IBAS 에 회원 가입하기 위해
         소셜 로그인 후 회원 가입용 임시 토큰을 발급 받았다.*/
-        String token = tokenProvider.createJwtToken(authUserId, Role.ANONYMOUS.toString(), null).getAccessToken();
+        String token = tokenProvider.createJwtToken(authUserId, AuthUserRole.ANONYMOUS.toString(), null).getAccessToken();
 
         /* OAuth2 인증이 완료되면 자동으로 회원가입 페이지로 리다이렉트 된다.
         이 때, 회원가입을 완료하지 않고 임시저장했던 프로필 정보가 있는지 불러오길 시도하지만
@@ -104,7 +106,7 @@ public class SignUpIntegrationTest {
 
         /* 유동현은 IBAS 에 회원 가입하기 위해
         소셜 로그인 후 회원 가입용 임시 토큰을 발급 받았다.*/
-        String token = tokenProvider.createJwtToken(authUserId, Role.ANONYMOUS.toString(), null).getAccessToken();
+        String token = tokenProvider.createJwtToken(authUserId, AuthUserRole.ANONYMOUS.toString(), null).getAccessToken();
 
         /* OAuth2 인증이 완료되면 자동으로 회원가입 페이지로 리다이렉트 된다.
         이 때, 회원가입을 완료하지 않고 임시저장했던 프로필 정보가 있는지 불러오길 시도하지만
@@ -178,11 +180,10 @@ public class SignUpIntegrationTest {
 
 
         //then
-        Member 유동현 = memberRepository.findById(12171652).orElseThrow(MemberNotFoundException::new);
-        assertThat(유동현.getIbasInformation().getRole()).isEqualTo(Role.NOT_APPROVED_MEMBER);
-        AuthUser 유동현_소셜_계정 = authUserRepository.findById(authUserId).orElseThrow(AuthUserNotFoundException::new);
-        assertThat(유동현_소셜_계정.getProfileId()).isEqualTo(12171652);
-        assertThat(유동현_소셜_계정.hasJoined()).isEqualTo(true);
+        memberRepository.findById(12171652).orElseThrow(MemberNotFoundException::new);
+        AuthUser 유동현 = authUserRepository.findById(authUserId).orElseThrow(AuthUserNotFoundException::new);
+        assertThat(유동현.getProfileId()).isEqualTo(12171652);
+        assertSame(유동현.getRole(), AuthUserRole.NOT_APPROVED_MEMBER);
     }
 
     @Test
@@ -194,7 +195,7 @@ public class SignUpIntegrationTest {
 
         /* 유동현 교수는 IBAS 에 회원 가입하기 위해
         소셜 로그인 후 회원 가입용 임시 토큰을 발급 받았다.*/
-        String token = tokenProvider.createJwtToken(authUserId, Role.ANONYMOUS.toString(), null).getAccessToken();
+        String token = tokenProvider.createJwtToken(authUserId, AuthUserRole.ANONYMOUS.toString(), null).getAccessToken();
 
         /* OAuth2 인증이 완료되면 자동으로 회원가입 페이지로 리다이렉트 된다. */
 
@@ -242,14 +243,14 @@ public class SignUpIntegrationTest {
 
 
         //then
-        Member 유동현_교수 = memberRepository.findById(228761).orElseThrow(MemberNotFoundException::new);
-        assertThat(유동현_교수.getIbasInformation().getRole()).isEqualTo(Role.NOT_APPROVED_MEMBER);
-        AuthUser 유동현_소셜_계정 = authUserRepository.findById(authUserId).orElseThrow(AuthUserNotFoundException::new);
-        assertThat(유동현_소셜_계정.getProfileId()).isEqualTo(228761);
-        assertThat(유동현_소셜_계정.hasJoined()).isEqualTo(true);
+        Member professor = memberRepository.findById(228761).orElseThrow(MemberNotFoundException::new);
+        assertTrue(professor.isProfessor());
+        AuthUser 유동현_교수 = authUserRepository.findById(authUserId).orElseThrow(AuthUserNotFoundException::new);
+        assertThat(유동현_교수.getProfileId()).isEqualTo(228761);
+        assertSame(유동현_교수.getRole(), AuthUserRole.NOT_APPROVED_MEMBER);
     }
 
-    private void forbiddenWhenAccessEverySignUpApi(Role role) throws Exception {
+    private void forbiddenWhenAccessEverySignUpApi(AuthUserRole role) throws Exception {
         String token = tokenProvider.createJwtToken(authUserId, role.toString(), null).getAccessToken();
 
         mockMvc.perform(get("/signUp/student").with(accessToken(token)))

@@ -1,7 +1,7 @@
 package com.inhabas.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.security.controller.JwtTokenController;
 import com.inhabas.api.security.service.TokenService;
 import com.inhabas.api.security.utils.jwtUtils.JwtTokenProvider;
@@ -42,7 +42,7 @@ public class JwtControllerTest {
     @Test
     public void reissueAccessTokenTest() throws Exception {
         //given
-        TokenDto tmp = jwtTokenProvider.createJwtToken(1, Role.BASIC_MEMBER.toString(), null);
+        TokenDto tmp = jwtTokenProvider.createJwtToken(1, AuthUserRole.BASIC_MEMBER.toString(), null);
         TokenDto expectedNewTokenDto = new TokenDto(tmp.getGrantType(), tmp.getAccessToken(), null, tmp.getExpiresIn());
 
         given(tokenService.reissueAccessToken(any())).willReturn(expectedNewTokenDto);

@@ -1,5 +1,6 @@
 package com.inhabas.security.argumentResolver;
 
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.security.utils.argumentResolver.AuthUserArgumentResolver;
 import com.inhabas.api.security.domain.authUser.AuthUser;
 import com.inhabas.api.security.domain.authUser.AuthUserDetail;
@@ -103,7 +104,7 @@ public class ArgumentResolverTest {
                 AuthUserDetail.builder()
                         .id(authUserId)
                         .profileId(12171652)
-                        .hasJoined(true)
+                        .role(null)
                         .isActive(true)
                         .build());
         //OAuth2 인증결과를 authentication 객체에 담는다.
@@ -183,7 +184,7 @@ public class ArgumentResolverTest {
                 AuthUserDetail.builder()
                         .id(authUserId)
                         .profileId(12171652)
-                        .hasJoined(true)
+                        .role(null)
                         .isActive(true)
                         .build());
         //OAuth2 인증결과를 authentication 객체에 담는다.

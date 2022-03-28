@@ -1,7 +1,7 @@
 package com.inhabas.api.service.member;
 
 import com.inhabas.api.domain.member.*;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.dto.member.ContactDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,22 +54,22 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(member.getId()).isPresent();
     }
 
-    @Transactional
-    public void changeRole(Integer memberId, Role role) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
-
-        member.setRole(role);
-        memberRepository.save(member);
-    }
-
-    @Override
-    public ContactDto getChiefContact() {
-        try {
-            Member chief = memberRepository.searchByRoleLimit(Role.Chief, 1).get(0);
-            return new ContactDto(chief.getName(), chief.getPhone(), chief.getEmail());
-        } catch (IndexOutOfBoundsException e) {
-            return new ContactDto("", "", "");
-        }
-    }
+//    @Transactional
+//    public void changeRole(Integer memberId, AuthUserRole role) {
+//        Member member = memberRepository.findById(memberId)
+//                .orElseThrow(MemberNotFoundException::new);
+//
+//        member.setRole(role);
+//        memberRepository.save(member);
+//    }
+//
+//    @Override
+//    public ContactDto getChiefContact() {
+//        try {
+//            Member chief = memberRepository.searchByRoleLimit(AuthUserRole.Chief, 1).get(0);
+//            return new ContactDto(chief.getName(), chief.getPhone(), chief.getEmail());
+//        } catch (IndexOutOfBoundsException e) {
+//            return new ContactDto("", "", "");
+//        }
+//    }
 }

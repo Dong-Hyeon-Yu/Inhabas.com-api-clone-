@@ -3,7 +3,7 @@ package com.inhabas.api.domain;
 import com.inhabas.api.domain.member.*;
 import com.inhabas.api.domain.member.type.IbasInformation;
 import com.inhabas.api.domain.member.type.SchoolInformation;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.testConfig.DefaultDataJpaTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ public class MemberTeamTest {
         member = entityManager.persist(
                 new Member(12171652, "유동현", "010-0000-0000", "my@gmail.com","",
                         SchoolInformation.ofUnderGraduate("건축공학과", 3),
-                        new IbasInformation(Role.BASIC_MEMBER)));
+                        new IbasInformation()));
 
         memberTeamRepository.save(new MemberTeam(member, IT));
 

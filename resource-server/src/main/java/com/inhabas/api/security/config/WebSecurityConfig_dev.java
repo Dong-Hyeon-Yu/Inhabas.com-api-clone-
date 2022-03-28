@@ -1,6 +1,6 @@
 package com.inhabas.api.security.config;
 
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.security.domain.authUser.AuthUserService;
 import com.inhabas.api.security.utils.jwtUtils.InvalidJwtTokenHandler;
 import com.inhabas.api.security.utils.jwtUtils.JwtAuthenticationProcessingFilter;
@@ -108,8 +108,8 @@ public class WebSecurityConfig_dev {
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .antMatchers("/swagger", "/swagger-ui/**", "/docs/**", "/jwt/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/menu/**", "/signUp/schedule", "/member/chief").permitAll()
-                    .antMatchers("/signUp/**").hasRole(Role.ANONYMOUS.toString())
-                    .anyRequest().hasRole(Role.BASIC_MEMBER.toString());
+                    .antMatchers("/signUp/**").hasRole(AuthUserRole.ANONYMOUS.toString())
+                    .anyRequest().hasRole(AuthUserRole.BASIC_MEMBER.toString());
         }
 
     }

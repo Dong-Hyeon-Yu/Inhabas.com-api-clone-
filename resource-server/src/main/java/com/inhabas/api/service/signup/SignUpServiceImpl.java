@@ -4,7 +4,7 @@ import com.inhabas.api.domain.member.*;
 import com.inhabas.api.domain.member.type.IbasInformation;
 import com.inhabas.api.domain.member.type.MemberType;
 import com.inhabas.api.domain.member.type.SchoolInformation;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.dto.member.MajorInfoDto;
 import com.inhabas.api.dto.signUp.AnswerDto;
 import com.inhabas.api.dto.signUp.MemberDuplicationQueryCondition;
@@ -38,15 +38,13 @@ public class SignUpServiceImpl implements SignUpService {
     private final AuthUserService authUserService;
 
     private static final MemberType DEFAULT_MEMBER_TYPE = MemberType.UNDERGRADUATE;
-    private static final Role DEFAULT_ROLE_AFTER_FINISH_SIGNUP = Role.NOT_APPROVED_MEMBER;
-    private static final Role DEFAULT_ROLE_BEFORE_FINISH_SIGNUP = Role.ANONYMOUS;
 
 
     @Override
     @Transactional
     public void saveSignUpForm(SignUpDto signUpForm, AuthUserDetail authUserDetail) {
         Integer generation = signUpScheduler.getSchedule().getGeneration();
-        IbasInformation ibasInformation = new IbasInformation(DEFAULT_ROLE_BEFORE_FINISH_SIGNUP);
+        IbasInformation ibasInformation = new IbasInformation();
         SchoolInformation schoolInformation = new SchoolInformation(signUpForm.getMajor(), generation, signUpForm.getMemberType());
 
         Member member = Member.builder()
@@ -73,7 +71,6 @@ public class SignUpServiceImpl implements SignUpService {
         }
 
         authUserService.finishSignUp(signUpUser.getId());
-        memberService.changeRole(signUpUser.getProfileId(), DEFAULT_ROLE_AFTER_FINISH_SIGNUP);
     }
 
     private boolean notYetWroteProfile(AuthUserDetail signUpUser) {

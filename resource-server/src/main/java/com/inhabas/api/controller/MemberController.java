@@ -43,13 +43,13 @@ public class MemberController {
         return memberService.updateMember(member).get();
     }
 
-    @Operation(summary = "회장 연락처 정보 불러오기")
-    @GetMapping("/chief")
-    @ApiResponse(responseCode = "200")
-    public ResponseEntity<ContactDto> getChiefContact() {
-        ContactDto contact = memberService.getChiefContact();
-        return ResponseEntity.ok(contact);
-    }
+//    @Operation(summary = "회장 연락처 정보 불러오기")
+//    @GetMapping("/chief")
+//    @ApiResponse(responseCode = "200")
+//    public ResponseEntity<ContactDto> getChiefContact() {
+//        ContactDto contact = memberService.getChiefContact();
+//        return ResponseEntity.ok(contact);
+//    }
 
     @Operation(summary = "회원을 팀에 포함시킨다.")
     @PostMapping("/team")

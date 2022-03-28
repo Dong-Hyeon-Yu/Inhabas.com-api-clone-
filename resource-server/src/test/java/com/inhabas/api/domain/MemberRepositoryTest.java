@@ -4,8 +4,8 @@ import com.inhabas.api.domain.member.type.IbasInformation;
 import com.inhabas.api.domain.member.Member;
 import com.inhabas.api.domain.member.type.SchoolInformation;
 import com.inhabas.api.domain.member.MemberRepository;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.domain.member.type.wrapper.Phone;
-import com.inhabas.api.domain.member.type.wrapper.Role;
 
 import com.inhabas.api.dto.signUp.MemberDuplicationQueryCondition;
 import com.inhabas.api.service.signup.NoQueryParameterException;
@@ -105,7 +105,7 @@ public class MemberRepositoryTest {
                 .phone(MEMBER1.getPhone()) // 같은 전화번호
                 .email("my@gmail.com")
                 .picture("")
-                .ibasInformation(new IbasInformation(Role.BASIC_MEMBER))
+                .ibasInformation(new IbasInformation())
                 .schoolInformation(SchoolInformation.ofUnderGraduate("전자공학과", 3))
                 .build();
 
@@ -125,7 +125,7 @@ public class MemberRepositoryTest {
                 .email("my@gmail.com")
                 .picture("")
                 .schoolInformation(SchoolInformation.ofUnderGraduate("공간정보공학과", 1))
-                .ibasInformation(new IbasInformation(Role.ANONYMOUS))
+                .ibasInformation(new IbasInformation())
                 .build();
         memberRepository.save(member);
 
@@ -218,18 +218,18 @@ public class MemberRepositoryTest {
         assertTrue(result);
     }
 
-    @DisplayName("role 로 회원 검색")
-    @Test
-    public void searchByRole() {
-        //given
-        Member member = memberRepository.save(MEMBER1);
-
-        //when
-        List<Member> members = memberRepository.searchAllByRole(member.getIbasInformation().getRole());
-
-        //then
-        assertThat(members.size()).isEqualTo(1);
-    }
+//    @DisplayName("role 로 회원 검색")
+//    @Test
+//    public void searchByRole() {
+//        //given
+//        Member member = memberRepository.save(MEMBER1);
+//
+//        //when
+//        List<Member> members = memberRepository.searchAllByRole(member.getIbasInformation().getRole());
+//
+//        //then
+//        assertThat(members.size()).isEqualTo(1);
+//    }
 
 
 

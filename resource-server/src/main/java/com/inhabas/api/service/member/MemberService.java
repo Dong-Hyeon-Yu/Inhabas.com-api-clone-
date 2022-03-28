@@ -1,7 +1,7 @@
 package com.inhabas.api.service.member;
 
 import com.inhabas.api.domain.member.Member;
-import com.inhabas.api.domain.member.type.wrapper.Role;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.dto.member.ContactDto;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface MemberService {
 
     Optional<Member> updateMember(Member member);
 
-    void changeRole(Integer memberId, Role role);
-
-    ContactDto getChiefContact();
+//    void changeRole(Integer memberId, AuthUserRole role);
+//
+//    ContactDto getChiefContact();
 }

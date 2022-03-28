@@ -50,6 +50,22 @@ public class SchoolInformation {
         return new SchoolInformation(major, generation, MemberType.OTHER);
     }
 
+    public boolean isUnderGraduate() {
+        return this.memberType == MemberType.UNDERGRADUATE;
+    }
+    public boolean isProfessor() {
+        return this.memberType == MemberType.PROFESSOR;
+    }
+    public boolean isGraduated() {
+        return this.memberType == MemberType.GRADUATED;
+    }
+    public boolean isBachelor() {
+        return this.memberType == MemberType.BACHELOR;
+    }
+    public boolean isOther() {
+        return this.memberType == MemberType.OTHER;
+    }
+
     public String getMajor() {
         return major.getValue();
     }
@@ -65,10 +81,11 @@ public class SchoolInformation {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SchoolInformation)) return false;
+        if (!(SchoolInformation.class.isAssignableFrom(o.getClass()))) return false;
         SchoolInformation that = (SchoolInformation) o;
         return Objects.equals(getMajor(), that.getMajor())
-                && getGeneration().equals(that.getGeneration());
+                && getGeneration().equals(that.getGeneration())
+                && getMemberType().equals(that.getMemberType());
     }
 
 }

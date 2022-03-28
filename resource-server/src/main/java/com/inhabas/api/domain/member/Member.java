@@ -3,10 +3,10 @@ package com.inhabas.api.domain.member;
 import com.inhabas.api.domain.member.type.IbasInformation;
 import com.inhabas.api.domain.member.type.MemberType;
 import com.inhabas.api.domain.member.type.SchoolInformation;
+import com.inhabas.api.security.domain.authUser.AuthUserRole;
 import com.inhabas.api.domain.member.type.wrapper.Email;
 import com.inhabas.api.domain.member.type.wrapper.Name;
 import com.inhabas.api.domain.member.type.wrapper.Phone;
-import com.inhabas.api.domain.member.type.wrapper.Role;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -63,11 +63,6 @@ public class Member {
         return this.email.getValue();
     }
 
-    public void setRole(Role role) {
-        this.ibasInformation.setRole(role);
-    }
-
-
     public void addTeam(MemberTeam team) {
         this.ibasInformation.addTeam(team);
     }
@@ -90,19 +85,19 @@ public class Member {
     }
 
     public boolean isUnderGraduate() {
-        return this.schoolInformation.getMemberType() == MemberType.UNDERGRADUATE;
+        return this.schoolInformation.isUnderGraduate();
     }
     public boolean isGraduated() {
-        return this.schoolInformation.getMemberType() == MemberType.GRADUATED;
+        return this.schoolInformation.isGraduated();
     }
     public boolean isProfessor() {
-        return this.schoolInformation.getMemberType() == MemberType.PROFESSOR;
+        return this.schoolInformation.isProfessor();
     }
     public boolean isOther() {
-        return this.schoolInformation.getMemberType() == MemberType.OTHER;
+        return this.schoolInformation.isOther();
     }
     public boolean isBachelor() {
-        return this.schoolInformation.getMemberType() == MemberType.BACHELOR;
+        return this.schoolInformation.isBachelor();
     }
 
 
