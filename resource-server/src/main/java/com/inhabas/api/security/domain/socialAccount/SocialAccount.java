@@ -29,7 +29,7 @@ public class SocialAccount {
 
     private LocalDateTime lastLogin;
 
-    private LocalDateTime dateJoined;
+    private LocalDateTime connectDate;
 
     private String extraData;
 
@@ -40,11 +40,10 @@ public class SocialAccount {
     @JoinColumn(name = "auth_user_id", foreignKey = @ForeignKey(name = "fk_to_auth_user"))
     private AuthUser authUser;
 
-    public SocialAccount(Provider provider, UID uid, LocalDateTime lastLogin, LocalDateTime dateJoined, String extraData) {
+    public SocialAccount(Provider provider, UID uid, LocalDateTime lastLogin, String extraData) {
         this.provider = provider;
         this.uid = uid;
         this.lastLogin = lastLogin;
-        this.dateJoined = dateJoined;
         this.extraData = extraData;
     }
 
@@ -53,6 +52,7 @@ public class SocialAccount {
     }
 
     public SocialAccount connectTo(AuthUser authUser) {
+        this.connectDate = LocalDateTime.now();
         this.authUser = authUser;
         return this;
     }

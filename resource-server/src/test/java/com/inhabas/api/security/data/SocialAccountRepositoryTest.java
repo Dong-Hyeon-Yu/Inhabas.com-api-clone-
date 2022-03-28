@@ -30,7 +30,7 @@ public class SocialAccountRepositoryTest {
     public void findBySocialAccountByUidAndProvider() {
         //given
         AuthUser authUser = entityManager.persist(new AuthUser(12171652));
-        SocialAccount socialAccount = new SocialAccount(new Provider("google"), new UID("1234"), LocalDateTime.now(), LocalDateTime.now(), "")
+        SocialAccount socialAccount = new SocialAccount(new Provider("google"), new UID("1234"), LocalDateTime.now(), "")
                 .connectTo(authUser);
         socialAccountRepository.save(socialAccount);
 
